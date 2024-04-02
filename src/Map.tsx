@@ -20,7 +20,7 @@ function Map() {
       map.addSource("accuweather-satellite-tiles", {
         type: "raster",
         tiles: [
-          `https://api.accuweather.com/maps/v1/satellite/globalColor/zxy/2024-04-01T21:50:00Z/{z}/{x}/{y}.jpeg?apikey=de13920f574d420984d3080b1fa6132b`,
+          `https://api.accuweather.com/maps/v1/satellite/globalColor/zxy/2024-04-01T22:40:00Z/{z}/{x}/{y}.jpeg?apikey=de13920f574d420984d3080b1fa6132b`,
         ],
         tileSize: 256,
         attribution: `&copy; <a href="https://www.accuweather.com">Accuweather ${new Date().getFullYear()}</a>`,
@@ -28,9 +28,17 @@ function Map() {
       map.addSource("weather-channel-satellite-tiles", {
         type: "raster",
         tiles: [
-          "https://api.weather.com/v3/TileServer/tile?product=satradFcst&ts=1712016000&fts=1712016900&xyz={x}:{y}:{z}&apiKey=bbd90b15bb534e3c990b15bb53fe3c03",
+          "https://api.weather.com/v3/TileServer/tile?product=satradFcst&ts=1712018700&fts=1712019600&xyz={x}:{y}:{z}&apiKey=bbd90b15bb534e3c990b15bb53fe3c03",
         ],
         tileSize: 256,
+      });
+      map.addSource("eclipseCenterPathGeoJson", {
+        type: "geojson",
+        data: "/eclipse-center-path.geojson",
+      });
+      map.addSource("eclipseUmbraPathGeoJson", {
+        type: "geojson",
+        data: "/eclipse-umbra-path.geojson",
       });
 
       map.addLayer({
@@ -47,6 +55,33 @@ function Map() {
         source: "weather-channel-satellite-tiles",
         minzoom: 0,
         maxzoom: 22,
+      });
+
+      map.addLayer({
+        id: "eclipseCenterPathGeoJson",
+        type: "line",
+        source: "eclipseCenterPathGeoJson",
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "#0000ff",
+          "line-width": 2,
+        },
+      });
+      map.addLayer({
+        id: "eclipseUmbraPathGeoJson",
+        type: "line",
+        source: "eclipseUmbraPathGeoJson",
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "#ff0000",
+          "line-width": 2,
+        },
       });
     });
 
